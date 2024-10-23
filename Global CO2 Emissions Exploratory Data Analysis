@@ -1,0 +1,131 @@
+### Project: Global CO2 Emissions Exploratory Data Analysis
+
+**About the Dataset**:
+The dataset consists of information about CO2 emissions from various countries across different years. It includes the following columns:
+- **Country**: Name of the country
+- **Year**: The year of observation
+- **CO2 Emissions**: The amount of CO2 emissions in metric tonnes
+- **Population**: Population of the country
+- **GDP**: Gross Domestic Product of the country in USD
+- **CO2 per Capita**: CO2 emissions per capita (calculated)
+
+---
+
+### About The Author
+Hi there! I'm Sara Massoud, an aspiring data analyst. I am passionate about analyzing data, drawing insights, and contributing to data-driven decisions. Join me on this journey as I explore various concepts and techniques in data analysis. I believe that continuous learning and community engagement are the keys to growth. 
+
+> “Analyzing data is like finding patterns in chaos. Together, we can reveal the story behind the numbers.”
+
+---
+
+### Let's Begin!
+
+#### Step 1: Importing Libraries
+
+```python
+# Importing necessary libraries
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+import plotly.express as px
+
+# To display all columns and rows if needed
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
+```
+
+#### Step 2: Loading the Dataset
+
+```python
+# Load the dataset
+df = pd.read_csv("global_co2_emissions.csv")
+
+# Display the first few rows of the dataset
+df.head()
+```
+
+#### Step 3: Data Cleaning & Exploration
+
+1. **Check for Missing Values**:
+    ```python
+    df.isnull().sum()
+    ```
+
+2. **Data Types and Information**:
+    ```python
+    df.info()
+    ```
+
+3. **Renaming Columns for Consistency**:
+    ```python
+    df.rename(columns={'Country': 'Country_Name'}, inplace=True)
+    ```
+
+4. **Removing Duplicates**:
+    ```python
+    df = df.drop_duplicates()
+    ```
+
+#### Step 4: Data Analysis
+
+1. **Top 10 Countries by CO2 Emissions**:
+    ```python
+    top_countries = df.groupby('Country_Name')['CO2 Emissions'].sum().sort_values(ascending=False).head(10)
+    print(top_countries)
+    ```
+
+2. **Trend of Global CO2 Emissions Over the Years**:
+    ```python
+    global_trend = df.groupby('Year')['CO2 Emissions'].sum()
+    plt.figure(figsize=(10, 6))
+    sns.lineplot(x=global_trend.index, y=global_trend.values)
+    plt.title("Global CO2 Emissions Over the Years")
+    plt.xlabel("Year")
+    plt.ylabel("CO2 Emissions (Tonnes)")
+    plt.show()
+    ```
+
+3. **Correlation Between Population, GDP, and CO2 Emissions**:
+    ```python
+    correlation_matrix = df[['CO2 Emissions', 'Population', 'GDP']].corr()
+    sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm')
+    plt.title("Correlation Matrix")
+    plt.show()
+    ```
+
+#### Step 5: Data Visualization with Plotly
+
+1. **Bar Chart: CO2 Emissions in 2020 by Country**:
+    ```python
+    fig = px.bar(df[df['Year'] == 2020], x='Country_Name', y='CO2 Emissions', title='CO2 Emissions by Country in 2020')
+    fig.show()
+    ```
+
+2. **Scatter Plot: GDP vs CO2 Emissions**:
+    ```python
+    fig = px.scatter(df, x='GDP', y='CO2 Emissions', color='Country_Name', size='Population', title='GDP vs CO2 Emissions')
+    fig.show()
+    ```
+
+3. **Animated Line Plot: CO2 Emissions Over the Years**:
+    ```python
+    fig = px.line(df, x='Year', y='CO2 Emissions', color='Country_Name', title='CO2 Emissions Over Time')
+    fig.show()
+    ```
+
+#### Step 6: Insights & Conclusions
+
+- **Global Increase in CO2 Emissions**: 
+    From the visualizations, we can observe a consistent increase in CO2 emissions globally, especially in industrialized countries.
+- **Relationship Between GDP and Emissions**:
+    There is a noticeable positive correlation between GDP and CO2 emissions, suggesting that economic growth often comes with higher emissions.
+- **Population Impact**:
+    Countries with larger populations tend to have higher CO2 emissions, though there are exceptions based on industrial activity.
+
+---
+
+**Next Steps**:
+I will continue refining this project, exploring deeper trends, and identifying patterns. Stay tuned for updates by following me on LinkedIn, GitHub, or Kaggle. 
+
+Thank you for taking the time to explore this notebook with me!
